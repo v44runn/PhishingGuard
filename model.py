@@ -1,71 +1,73 @@
+
 import pandas as pd
 import joblib
-from pathlib import Path 
+from pathlib import Path
 
-from sklearn.model_selection import train_test_split  # Split training and test data
-from sklearn.feature_extraction.text import TfidfVectorizer  # Convert words into numbers
-from sklearn.linear_model import LogisticRegression  # Classify emails
-from sklearn.pipeline import Pipeline  # Combine text processing and classification
-from sklearn.metrics import classification_report  # Evaluate model performance
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import classification_report
 
-MODEL_PATH = Path(__file__).parent / "phishing_model.joblib"  # Saved model location
-DATA_PATH = Path(__file__).parent / "data" / "dataset.csv"  # Dataset location
+MODEL_PATH = Path(__file__).parent / "phishing_model.joblib"
+DATA_PATH = Path(__file__).parent / "data" / "dataset.csv"
 
 
-def train_model():  # Train and save the phishing classifier
-    print("Loading dataset...")  # Show progress
+def train_model():
+    print("Loading dataset...")
 
-    df = pd.read_csv(DATA_PATH)  # Load the CSV
+    df = pd.read_csv(DATA_PATH)
 
-    df = df[["text_combined", "label"]].dropna()  # Keep the required columns and remove missing values
-    df = df[df["label"].isin([0, 1])]  # Keep only valid class labels
-    df = df.drop_duplicates(subset=["text_combined"])  # Remove identical emails before splitting
-    print("Unique emails:", len(df))  # Display the number of emails remaining
+    df = df[["text_combined", "label"]].dropna()
+    df = df[df["label"].isin([0, 1])]
+    df = df.drop_duplicates(subset=["text_combined"])
+    print("Unique emails:", len(df))
 
-    X = df["text_combined"].astype(str)  # Email text used as input
-    y = df["label"].astype(int)  # Correct classification for each email
+    X = df["text_combined"].astype(str)
+    y = df["label"].astype(int)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
-    )  # Reserve 20% of emails for evaluation
+    )
 
-    model = Pipeline([  # Build the complete ML pipeline
+    model = Pipeline([
         ("tfidf", TfidfVectorizer(
-            max_features=10000,  # Keep up to 10,000 text features
-            stop_words="english"  # Remove common English stop words
+            max_features=20000,
+            stop_words="english",
+            ngram_range=(1, 2)
         )),
         ("classifier", LogisticRegression(
-            max_iter=1000  # Allow enough iterations for training
+            max_iter=1000
         ))
     ])
 
-    print("Training model...")  # Show progress
-    model.fit(X_train, y_train)  # Learn from the training emails
+    print("Training model...")
+    model.fit(X_train, y_train)
 
-    predictions = model.predict(X_test)  # Predict unseen test emails
+    predictions = model.predict(X_test)
 
-    print("\nMODEL EVALUATION")  # Display evaluation heading
-    print(classification_report(y_test, predictions, zero_division=0))  # Show precision, recall, F1
+    print("\nMODEL EVALUATION")
+    print(classification_report(y_test, predictions, zero_division=0))
 
-    joblib.dump(model, MODEL_PATH)  # Save the entire trained pipeline
-    print(f"\nModel saved to {MODEL_PATH}")  # Confirm saved location
+    joblib.dump(model, MODEL_PATH)
+    print(f"\nModel saved to {MODEL_PATH}")
 
 
-def predict_email(text):  # Function used by the frontend
-    if not isinstance(text, str) or not text.strip():  # Validate input
-        raise ValueError("Email text cannot be empty")  # Reject invalid input
+def predict_email(text):
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("Email text cannot be empty")
 
-    if not MODEL_PATH.exists():  # Check whether model has been trained
+    if not MODEL_PATH.exists():
         raise FileNotFoundError("Train the model first using python model.py")
 
-    model = joblib.load(MODEL_PATH)  # Load the saved model
+    model = joblib.load(MODEL_PATH)
 
-    probabilities = model.predict_proba([text])[0]  # Get class probabilities
+    probabilities = model.predict_proba([text])[0]
 
-    phishing_index = list(model.classes_).index(1)  # Find phishing class (assumed label 1)
+    phishing_index = list(model.classes_).index(1)
 
-    return round(float(probabilities[phishing_index]) * 100, 2)  # Return percentage
+    return round(float(probabilities[phishing_index]) * 100, 2)
 
 
-if __name__ == "__main__":  # Only train when this file is run directly
-    train_model()  # Start training
+if __name__ == "__main__":
+    train_model()
