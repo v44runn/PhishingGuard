@@ -1,6 +1,6 @@
-import pandas as pd  # Read and process the CSV dataset
-import joblib  # Save and load the trained model
-from pathlib import Path  # Handle file locations
+import pandas as pd
+import joblib
+from pathlib import Path 
 
 from sklearn.model_selection import train_test_split  # Split training and test data
 from sklearn.feature_extraction.text import TfidfVectorizer  # Convert words into numbers
@@ -17,8 +17,10 @@ def train_model():  # Train and save the phishing classifier
 
     df = pd.read_csv(DATA_PATH)  # Load the CSV
 
-    df = df[["text_combined", "label"]].dropna()  # Remove missing emails or labels
-    df = df[df["label"].isin([0, 1])]  # Keep only valid binary labels
+    df = df[["text_combined", "label"]].dropna()  # Keep the required columns and remove missing values
+    df = df[df["label"].isin([0, 1])]  # Keep only valid class labels
+    df = df.drop_duplicates(subset=["text_combined"])  # Remove identical emails before splitting
+    print("Unique emails:", len(df))  # Display the number of emails remaining
 
     X = df["text_combined"].astype(str)  # Email text used as input
     y = df["label"].astype(int)  # Correct classification for each email
