@@ -4,7 +4,7 @@ import streamlit as st
 
 from detector import detect_red_flags
 from model import predict_email
-from url_checker import check_url
+from url_checker import analyze_url
 
 
 def _highlight_email(text: str, findings: list[dict[str, int | str]]) -> str:
@@ -57,10 +57,9 @@ def _render_email_checker() -> None:
                     phishing_probability = predict_email(email_text)
                 except FileNotFoundError as error:
                     st.error(
-                        "The phishing model has not been trained yet. Download the Kaggle "
-                        "Phishing Email Dataset CSV and run "
-                        "`python model.py --train path/to/Phishing_Email.csv`, then select "
-                        "Analyze email again."
+                        "The phishing model has not been trained yet. Put the prepared "
+                        "dataset at `data/dataset.csv` and run `python model.py`, then "
+                        "select Analyze email again."
                     )
                     st.caption(str(error))
                     st.session_state.pop("analysis", None)
@@ -155,41 +154,48 @@ def _render_url_checker() -> None:
         key="url_to_check",
     )
     if st.button("Check URL", type="primary", key="check_url"):
-        try:
-            st.session_state.url_analysis = check_url(url)
-            st.session_state.url_analyzed_input = url
-        except (TypeError, ValueError) as error:
-            st.session_state.pop("url_analysis", None)
-            st.session_state.pop("url_analyzed_input", None)
-            st.error(str(error))
+        st.session_state.url_analysis = analyze_url(url)
+        st.session_state.url_analyzed_input = url
 
     result = st.session_state.get("url_analysis")
     if result and st.session_state.get("url_analyzed_input") == url:
-        findings = result["findings"]
-        status_color = "#ffbd4a" if findings else "#39d98a"
+        score = result["score"]
+        if score < 35:
+            level = "Low"
+            status_color = "#39d98a"
+        elif score < 70:
+            level = "Medium"
+            status_color = "#ffbd4a"
+        else:
+            level = "High"
+            status_color = "#ff647c"
         st.markdown(
             f"""
             <div class="panel">
-              <div class="risk-label">URL review</div>
+              <div class="risk-label">URL risk score</div>
+              <div class="risk-value" style="font-size:2rem">{score}<span style="font-size:1rem;color:#8e9db2;font-weight:500"> / 100</span></div>
               <div class="risk-value" style="font-size:1.3rem;color:{status_color}">
-                {escape(str(result["status"]))}
+                {level} Risk
               </div>
               <div class="note" style="margin-top:.6rem;overflow-wrap:anywhere">
-                {escape(str(result["url"]))}
+                {escape(str(result["domain"] or result["url"]))}
               </div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-        if findings:
+        st.progress(score / 100)
+        if result["reasons"]:
             st.markdown('<div class="section-title">What to review</div>', unsafe_allow_html=True)
-            for finding in findings:
+            for reason in result["reasons"]:
                 st.markdown(
-                    '<div class="signal">• ' + escape(str(finding)) + "</div>",
+                    '<div class="signal">• ' + escape(str(reason)) + "</div>",
                     unsafe_allow_html=True,
                 )
         else:
-            st.success("No obvious URL warning signs were found. This does not guarantee the site is safe.")
+            st.success(
+                "No obvious URL warning signs were found. This does not guarantee the site is safe."
+            )
 
     st.markdown(
         '<div class="note">Checks are based on URL structure and common domain patterns. '
