@@ -1,6 +1,5 @@
 # Dataset (too large for GitHub)
-data/
-*.csv
+data/*
 
 # Trained ML models
 *.joblib
