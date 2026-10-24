@@ -1,0 +1,21 @@
+# Dataset (too large for GitHub)
+data/
+*.csv
+
+# Trained ML models
+*.joblib
+*.pkl
+
+# Python temporary files
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment variables
+.env
+
+# VS Code local settings
+.vscode/
