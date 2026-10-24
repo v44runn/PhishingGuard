@@ -37,13 +37,11 @@ SWAPS = str.maketrans({"0": "o", "1": "l", "3": "e", "5": "s", "$": "s"})
 _extract = tldextract.TLDExtract(suffix_list_urls=())
 
 def normalize(label: str) -> str:
-    """Undo common lookalike tricks so 'paypa1' becomes 'paypal'."""
     label = label.lower().translate(SWAPS)
     return label.replace("rn", "m").replace("vv", "w")
 
 
 def is_ip_address(host: str) -> bool:
-    """True for normal IPs and for IPs disguised as one big number or hex."""
     try:
         ipaddress.ip_address(host)
         return True
@@ -54,7 +52,7 @@ def is_ip_address(host: str) -> bool:
 # main
 
 def analyze_url(url: str) -> dict:
-    """Analyze one URL. Returns {"url", "domain", "score", "reasons"}."""
+    #analyze one url
     url = url.strip()
 
     # urlparse only finds the domain if the URL has a scheme
