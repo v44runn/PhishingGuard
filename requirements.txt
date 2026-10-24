@@ -1,3 +1,5 @@
 streamlit
 scikit-learn
 pandas
+tldextract
+kagglehub[pandas-datasets]
