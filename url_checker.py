@@ -1,6 +1,9 @@
 import re
 import sys
 import ipaddress
+import socket
+import math
+from collections import Counter
 from difflib import SequenceMatcher
 from urllib.parse import urlparse
 
@@ -15,12 +18,13 @@ BRAND_DOMAINS = {
     "microsoft": "microsoft.com",
     "netflix": "netflix.com",
     "facebook": "facebook.com",
+    "kaggle": "kaggle.com",
 }
-#safe domains
+
 SAFE_DOMAINS = {
     "amazonaws.com", "googleapis.com", "googleusercontent.com",
     "microsoftonline.com", "microsoft.com", "live.com", "office.com",
-    "icloud.com", "applebees.com", "pineapple.com",
+    "icloud.com", "applebees.com", "pineapple.com", "kaggle.com",
 }
 
 # country versions of a brand's real site (amazon.co.uk, google.de)
@@ -50,6 +54,21 @@ def is_ip_address(host: str) -> bool:
 
 
 # main
+
+def calculate_entropy(text: str) -> float:
+    if not text:
+        return 0.0
+    counter = Counter(text)
+    length = len(text)
+    return -sum((count / length) * math.log2(count / length) for count in counter.values())
+
+
+def check_dns_resolution(domain: str) -> bool:
+    try:
+        socket.gethostbyname(domain)
+        return True
+    except socket.gaierror:
+        return False
 
 def analyze_url(url: str) -> dict:
     #analyze one url
@@ -108,6 +127,10 @@ def analyze_url(url: str) -> dict:
 
     # Domain name check
     if not is_ip:
+        if not check_dns_resolution(domain):
+                    score += 35
+                    reasons.append("Domain does not resolve via DNS (Invalid or unregistered link)")
+                    
         ext = _extract(domain)
         main_domain = f"{ext.domain}.{ext.suffix}" if ext.suffix else ext.domain
         subdomains = [s for s in ext.subdomain.split(".") if s and s != "www"]
@@ -145,6 +168,11 @@ def analyze_url(url: str) -> dict:
         # Check: lookalike domains
         label = ext.domain.lower()
         norm = normalize(label)
+
+        domain_entropy = calculate_entropy(label)
+        if domain_entropy > 3.8 and len(label) > 10:
+            score += 25
+            reasons.append(f"Domain label has high entropy ({domain_entropy:.2f}), suggesting randomized gibberish")
 
         if "xn--" in domain:
             score += 25
