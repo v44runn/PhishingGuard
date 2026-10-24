@@ -1,0 +1,365 @@
+{
+  "urgent": {
+    "weight": 0.6,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "Urgent language creates artificial urgency and time pressure to rush the recipient into acting without thinking.",
+    "stats": {
+      "phish_count": 80,
+      "ham_count": 55,
+      "total": 135
+    }
+  },
+  "act now": {
+    "weight": 0.53,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "Creates artificial urgency and time pressure to rush the recipient into acting without thinking.",
+    "stats": {
+      "phish_count": 14,
+      "ham_count": 16,
+      "total": 30
+    }
+  },
+  "immediate action required": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "Pressures the recipient to act promptly without verifying the request.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "within 24 hours": {
+    "weight": 0.41,
+    "severity": "low",
+    "category": "urgency",
+    "explanation": "Imposes an artificial deadline to force hasty compliance.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 7,
+      "total": 7
+    }
+  },
+  "urgent notice": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "Attempts to induce panic and bypass normal scrutiny.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "final warning": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "Uses intimidation and artificial scarcity to prompt immediate response.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "failure to respond": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "Threatens negative consequences if action is not taken quickly.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "action required immediately": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "urgency",
+    "explanation": "High urgency indicator designed to prevent recipient diligence.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "limited time": {
+    "weight": 0.4,
+    "severity": "low",
+    "category": "urgency",
+    "explanation": "Manufactures urgency to rush the recipient.",
+    "stats": {
+      "phish_count": 4,
+      "ham_count": 37,
+      "total": 41
+    }
+  },
+  "account suspended": {
+    "weight": 0.8,
+    "severity": "high",
+    "category": "account_alert",
+    "explanation": "Threatens account suspension and loss of service to coerce immediate action.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "suspended": {
+    "weight": 0.88,
+    "severity": "high",
+    "category": "account_alert",
+    "explanation": "References account suspension, a common phishing lure to provoke panic.",
+    "stats": {
+      "phish_count": 213,
+      "ham_count": 27,
+      "total": 240
+    }
+  },
+  "unauthorized login": {
+    "weight": 0.8,
+    "severity": "high",
+    "category": "account_alert",
+    "explanation": "Fake security alert designed to provoke panicked credential submission.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "unusual activity detected": {
+    "weight": 0.8,
+    "severity": "high",
+    "category": "account_alert",
+    "explanation": "Pretends to detect fraud to lure user into an attacker-controlled login page.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "security alert": {
+    "weight": 0.62,
+    "severity": "medium",
+    "category": "account_alert",
+    "explanation": "Impersonates security teams to establish false authority.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 3,
+      "total": 3
+    }
+  },
+  "locked out": {
+    "weight": 0.5,
+    "severity": "medium",
+    "category": "account_alert",
+    "explanation": "Leverages fear of losing access to sensitive accounts.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 6,
+      "total": 6
+    }
+  },
+  "verify your account": {
+    "weight": 0.8,
+    "severity": "high",
+    "category": "account_alert",
+    "explanation": "Common phishing pretext to harvest credentials via spoofed verification forms.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "confirm your identity": {
+    "weight": 0.73,
+    "severity": "medium",
+    "category": "account_alert",
+    "explanation": "Prompts for personal data under the guise of an identity verification check.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 1,
+      "total": 1
+    }
+  },
+  "reactivate your account": {
+    "weight": 0.8,
+    "severity": "high",
+    "category": "account_alert",
+    "explanation": "Lures recipient to fake portal under the pretext of restoring access.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "password": {
+    "weight": 0.85,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "References passwords, frequently targeted in credential harvesting schemes.",
+    "stats": {
+      "phish_count": 11,
+      "ham_count": 423,
+      "total": 434
+    }
+  },
+  "enter your password": {
+    "weight": 0.85,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Direct solicitation of account passwords via email is a primary phishing indicator.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 14,
+      "total": 14
+    }
+  },
+  "send your password": {
+    "weight": 0.9,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Legitimate organizations never ask users to transmit passwords via email.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "confirm your ssn": {
+    "weight": 0.9,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Requests Social Security Number, which is sensitive PII used in identity theft.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "social security": {
+    "weight": 0.85,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Requests or references Social Security details, highly sensitive personal data.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 5,
+      "total": 5
+    }
+  },
+  "credit card number": {
+    "weight": 0.85,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Solicits payment card numbers to conduct unauthorized transactions.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 8,
+      "total": 8
+    }
+  },
+  "banking credentials": {
+    "weight": 0.9,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Requests confidential banking login information.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "security questions": {
+    "weight": 0.85,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Attempts to capture security question answers used for account recovery.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 1,
+      "total": 1
+    }
+  },
+  "seed phrase": {
+    "weight": 0.9,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Requests cryptocurrency wallet secret recovery phrase; guarantees wallet theft.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "verification code": {
+    "weight": 0.9,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Attempts to intercept Multi-Factor Authentication (MFA/2FA) one-time codes.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "provide your pin": {
+    "weight": 0.9,
+    "severity": "high",
+    "category": "sensitive_info",
+    "explanation": "Requests personal identification numbers for banking or debit access.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "wire transfer": {
+    "weight": 0.73,
+    "severity": "medium",
+    "category": "financial",
+    "explanation": "Often indicates Business Email Compromise (BEC) or urgent payment diversion scams.",
+    "stats": {
+      "phish_count": 1,
+      "ham_count": 0,
+      "total": 1
+    }
+  },
+  "payment declined": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "financial",
+    "explanation": "Falsely claims billing failure to trick recipient into entering payment details.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  },
+  "refund pending": {
+    "weight": 0.58,
+    "severity": "medium",
+    "category": "financial",
+    "explanation": "Uses unexpected financial gains to lure recipient into clicking dangerous links.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 2,
+      "total": 2
+    }
+  },
+  "crypto invoice": {
+    "weight": 0.7,
+    "severity": "medium",
+    "category": "financial",
+    "explanation": "Unsolicited cryptocurrency payment demands or fake receipt lures.",
+    "stats": {
+      "phish_count": 0,
+      "ham_count": 0,
+      "total": 0
+    }
+  }
+}
