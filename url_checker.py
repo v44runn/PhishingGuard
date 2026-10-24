@@ -101,7 +101,7 @@ def analyze_url(url: str) -> dict:
         score += 30
         fake_part = parsed.username or ""
         reasons.append(
-            f"URL contains '@', the ('{fake_part}') is ignored by "
+            f"URL contains '@', the text ('{fake_part}') is ignored by "
             f"browsers; the real destination is {domain}"
         )
         if "." in fake_part:
@@ -157,19 +157,19 @@ def analyze_url(url: str) -> dict:
                 if main_domain == official or (label == brand and ext.suffix in REGIONAL_SUFFIXES):
                     break
                 if norm == brand and label != brand:
-                    score += 20
+                    score += 30
                     reasons.append(f"'{main_domain}' imitates {official} using look-alike characters")
                     break
                 if label == brand:
-                    score += 15
+                    score += 25
                     reasons.append(f"Uses the name '{brand}' but is not the official site ({official})")
                     break
                 if brand in label:
-                    score += 20
+                    score += 25
                     reasons.append(f"'{main_domain}' contains '{brand}' but is not {official}")
                     break
                 if SequenceMatcher(None, norm, brand).ratio() >= 0.85:
-                    score += 20
+                    score += 25
                     reasons.append(f"'{main_domain}' is very similar to {official}")
                     break
 
